@@ -21,7 +21,7 @@ class Treat(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('treat_detail', kwargs={'pk': self.id})
+        return reverse('treats_detail', kwargs={'pk': self.id})
 
 
 class Dog(models.Model):

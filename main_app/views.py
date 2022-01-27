@@ -10,9 +10,15 @@ from .forms import FeedingForm
 # Create your views here.
 
 
+def assoc_treat(request, dog_id, treat_id):
+    dog = Dog.objects.get(id=dog_id)
+    dog.treats.add(treat_id)
+    return redirect('detail', dog_id=dog_id)
+
+
 class DogCreate(CreateView):
     model = Dog
-    fields = '__all__'
+    fields = ['name', 'breed', 'energyLevel', 'description', 'age']
 
 
 class DogUpdate(UpdateView):
@@ -23,6 +29,15 @@ class DogUpdate(UpdateView):
 class DogDelete(DeleteView):
     model = Dog
     success_url = '/dogs/'
+
+
+def add_feeding(request, dog_id):
+    form = FeedingForm(request.POST)
+    if form.is_valid():
+        new_feeding = form.save(commit=False)
+        new_feeding.dog_id = dog_id
+        new_feeding.save()
+    return redirect('detail', dog_id=dog_id)
 
 
 def home(request):
@@ -51,21 +66,6 @@ def dogs_detail(request, dog_id):
         'feeding_form': feeding_form,
         'treats': treats_dog_doesnt_have
     })
-
-
-def add_feeding(request, dog_id):
-    form = FeedingForm(request.POST)
-    if form.is_valid():
-        new_feeding = form.save(commit=False)
-        new_feeding.dog_id = dog_id
-        new_feeding.save()
-    return redirect('detail', dog_id=dog_id)
-
-
-def assoc_toy(request, dog_id, treat_id):
-    dog = Dog.objects.get(id=dog_id)
-    dog.treats.add(treat_id)
-    return redirect('detail', dog_id=dog_id)
 
 
 class TreatList(ListView):

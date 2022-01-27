@@ -8,6 +8,9 @@ urlpatterns = [
     path('dogs/<int:dog_id>/', views.dogs_detail, name='detail'),
     path('dogs/<int:dog_id>/add_feeding',
          views.add_feeding, name='add_feeding'),
+
+    path('dogs/<int:dog_id>/assoc_treat/<int:treat_id>',
+         views.assoc_treat, name='assoc_treat'),
     path('dogs/create/', views.DogCreate.as_view(), name='dogs_create'),
     path('dogs/<int:pk>/update/', views.DogUpdate.as_view(), name='dogs_update'),
     path('dogs/<int:pk>/delete/', views.DogDelete.as_view(), name='dogs_delete'),
